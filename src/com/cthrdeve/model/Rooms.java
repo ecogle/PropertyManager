@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.sun.prism.paint.Paint;
 
 @Entity
 public class Rooms {
@@ -18,23 +21,23 @@ public class Rooms {
 	@Column(name="ROOM_ID")
 	private int id;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=Paints.class)
+	@OneToOne
 	@JoinColumn(name="PAINT_ID")
-	private int accentPaintFk;
+	private Paint accentPaint;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=Paints.class)
+	@OneToOne
 	@JoinColumn(name="PAINT_ID")
-	private int basePaintFk;
+	private Paint basePaint;
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=Property.class)
 	@JoinColumn(name="PROPERTY_ID")
 	private int propertyFk;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=RoomTypes.class)
+	@OneToOne
 	@JoinColumn(name="ROOM_TYPE_ID")
-	private int roomTypeFk;
+	private RoomTypes roomType;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=Paints.class)
+	@OneToOne
 	@JoinColumn(name="PAINT_ID")
-	private int trimPaintFk;
+	private Paint trimPaint;
 }

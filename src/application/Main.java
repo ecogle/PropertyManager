@@ -8,6 +8,9 @@ import javax.persistence.Persistence;
 
 
 import com.cthrdeve.model.*;
+
+import application.DepartmentType.DeptType;
+import gui.AddDepartmentWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -24,42 +27,35 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			BorderPane root = new BorderPane();
-			VBox form = new VBox();
-			HBox line = new HBox();
-			/*
-			 * form
-			 */
 			
-			EntityManagerFactory emf = Persistence.createEntityManagerFactory("propMan");
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
+			Button addDepartment = new Button("Add Department");
+			Button addPerson = new Button("Add Person");
+			addDepartment.setMinWidth(addDepartment.getText().length()*10);
+			addPerson.setMinWidth(addPerson.getText().length()*10);
 			
+			addDepartment.setOnMouseClicked(e -> {
+				AddDepartmentWindow newWindow = new AddDepartmentWindow();
+				newWindow.show();
+				
+				newWindow.setOnCloseRequest(r->{
+					r.consume();
+				});
+			});
 			
-			Property prop = new Property();
-			prop.setAddress1("1422 General Pershing Street");
-			prop.setCity("New Orleans");
-			prop.setState("Louisianna");
-			prop.setZip("70115");
+			HBox hBox = new HBox();
 			
+			hBox.getChildren().add(addDepartment);
+			hBox.getChildren().add(addPerson);
+			root.getChildren().add(hBox);
 			
-			Owners chad = new Owners();
-			chad.setOwnerFirstName("Erik");
-			chad.setOwnerLastName("Ogle");
-			prop.setOwners(chad);
-			em.persist(chad);
-			em.persist(prop);
-			
-			em.getTransaction().commit();
-			em.close();
-			
-			Label nameLabel = new Label("Your name: ");
-			TextField name = new TextField();
-			line.getChildren().addAll(nameLabel,name);
-			form.getChildren().add(line);
-			Scene scene = new Scene(form,400,400);
+			Scene scene = new Scene(root,400,600);
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(t->{
+				primaryStage.close();
+				
+			});
 			primaryStage.show();
 			
 		} catch(Exception e) {
